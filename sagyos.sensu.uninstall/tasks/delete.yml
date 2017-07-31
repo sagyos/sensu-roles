@@ -1,0 +1,30 @@
+---
+  
+  # Stop sensu client
+  - name: Stop sensu-client service
+    service:
+      name: sensu-client
+      enabled: no
+      state: stopped
+ 
+  # Delete the client from the sensu API
+  - name: Delete client from Sensu API
+    uri:
+      url: http://{{ sensu_server }}:4567/clients/{{ ansible_hostname }}
+      method: DELETE
+      password: secret
+      user: admin
+      status_code: 202
+    register: answer
+ 
+  # Erase sensu using yum
+  - name: Erase sensu
+    yum:
+      name: sensu
+      state: absent
+
+  # Delete sensu configuration directory
+  - name: Remove all sensu directories
+    file:
+      state: absent
+      path: '{{ sensu_path }}'

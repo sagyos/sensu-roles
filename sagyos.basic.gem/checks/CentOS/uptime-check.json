@@ -1,0 +1,9 @@
+{
+  "checks": {
+    "check_uptime": {
+      "command": "/opt/sensu/embedded/bin/ruby /etc/sensu/plugins/CentOS/check-uptime.rb",
+      "interval": 60,
+      "standalone": true
+    }
+  }
+}

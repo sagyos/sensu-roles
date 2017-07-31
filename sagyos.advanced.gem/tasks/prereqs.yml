@@ -1,0 +1,69 @@
+---
+  # Set sensu user as owner on /etc/sensu
+  - name : ensuring ownership on sensu files
+    file:
+      path: /etc/sensu/
+      state: directory
+      owner: sensu
+      group: sensu
+      recurse: yes
+    when: ansible_os_family != "Windows"
+
+  # Set sensu user as owner on /opt/sensu
+  - name: Setting sensu user as owner on opt
+    file:
+      path: /opt/sensu/
+      state: directory
+      owner: sensu
+      group: sensu
+      recurse: yes
+    when: ansible_os_family != "Windows"
+
+  # Installing gem bundler for deploying gems in the future (as sensu user)
+  - name: Installing gem bundler
+    become: true
+    become_method: su
+    become_user: sensu
+    become_flags: '-s /bin/sh'
+    gem:
+      name: bundler
+      state: latest
+      user_install: no
+      executable: /opt/sensu/embedded/bin/gem
+    when: ansible_os_family != "Windows"
+
+  # Ensuring that the sensu checks directory exists, and if not creates it
+  - name: ensuring checks path exists
+    file:
+      owner: sensu
+      group: sensu
+      path: '{{ sensu_checks_dir }}'
+      recurse: yes
+      state: directory
+    when: ansible_os_family != "Windows"
+      
+  # Ensuring that the sensu gems directory exists, and if not creates it
+  - name: ensuring gemfile path exists
+    file:
+      owner: sensu
+      group: sensu
+      path: '{{ sensu_gemfiles_dir }}'
+      recurse: yes
+      state: directory
+    when: ansible_os_family != "Windows"
+
+  - name: Installing gem bundler
+    raw: "gem install bundler"
+    when: ansible_os_family == "Windows"
+
+  - name: ensuring checks path exists
+    win_file:
+      path: '{{ sensu_win_checks_dir }}'
+      state: directory
+    when: ansible_os_family == "Windows"
+
+  - name: ensuring gemfile path exists
+    win_file:
+      path: '{{ sensu_win_gemfiles_dir }}'
+      state: directory
+    when: ansible_os_family == "Windows"

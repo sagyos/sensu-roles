@@ -1,0 +1,17 @@
+---
+# tasks/client.yml: Deploy various client-side configurations for Sensu
+
+  - include_vars: "{{ ansible_distribution }}.yml"
+
+  - name: Deploy Sensu client service configuration
+    template:
+      dest: "{{ sensu_config_path }}/conf.d/client.json"
+      src: "{{ sensu_client_config  }}"
+    notify: restart sensu-client service
+    become: true
+    become_method: su
+    become_user: sensu
+    become_flags: '-s /bin/sh'
+
+  - name: Ensure Sensu client service is running
+    service: name=sensu-client state=started enabled=yes

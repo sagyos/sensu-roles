@@ -1,0 +1,49 @@
+---
+  - name: Ensuring tmp folder exists
+    win_file:
+      path: "c:\\tmp"
+      state: directory
+
+  - name: Copying sensu installation msi 2012
+    win_copy:
+      src: /etc/ansible/roles/cmacrae.sensu/files/sensu-0.29.0-11-x64.msi
+      dest: c:\tmp\sensu-0.29.0-11-x64.msi
+    when: "'2012' in ansible_os_name"
+
+  - name: Installing sensu 2012
+    win_msi:
+      path: c:\tmp\sensu-0.29.0-11-x64.msi
+      wait: True
+    when: "'2012' not in ansible_os_name"
+
+  - name: Installing sensu 2008
+    win_msi:
+      path: c:\tmp\sensu-0.29.0-11-x64-2008.msi
+      wait: True
+    when: "'2008' in ansible_os_name"
+
+  - name: Making sure conf.d directory exists
+    win_file:
+      path: "{{ sensu_win_config_path }}"
+      state: directory
+  
+  - name: Deploy Sensu client service configuration
+    template:
+      dest: "{{ sensu_win_config_path }}\\client.json"
+      src: "{{ sensu_win_client_config  }}"
+
+  - name: Deploying sensu configurations
+    template:
+      dest: "{{ sensu_win_config_path }}\\rabbitmq.json"
+      src: "{{ sensu_rabbitmq_config }}"
+
+  - name: Deploying sensu configurations
+    template:
+      dest: "{{ sensu_win_config_path }}\\transport.json"
+      src:  transport.json.j2
+
+  - name: enabling sensu service
+    raw: C:\Windows\System32\sc.exe create sensu-client start= delayed-auto binPath= c:\opt\sensu\bin\sensu-client.exe DisplayName= "Sensu Client" 
+
+  - name: starting sensu
+    raw: C:\Windows\System32\sc.exe start sensu-client

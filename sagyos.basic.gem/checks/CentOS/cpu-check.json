@@ -1,0 +1,9 @@
+{
+  "checks": {
+    "check_cpu": {
+      "command": "/opt/sensu/embedded/bin/ruby /etc/sensu/plugins/CentOS/check-cpu.rb",
+      "interval": 60,
+      "standalone": true
+    }
+  }
+}

@@ -1,0 +1,12 @@
+---
+# tasks/main.yml: "Master" playbook for the cmacrae.sensu role
+
+  - include_vars: "{{ ansible_distribution }}.yml"
+
+  - include: client.yml
+    tags: client
+    when: ansible_os_family != "Windows"
+
+  - include: win-client.yml
+    tags: client
+    when: ansible_os_family == "Windows"

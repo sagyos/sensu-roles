@@ -1,0 +1,35 @@
+---
+  
+  # Stop sensu client
+  - name: Stop sensu-client service
+    win_service:
+      name: sensu-client
+      state: stopped
+ 
+  # Delete the client from the sensu API
+  - name: Delete client from Sensu API
+    local_action: uri url=http://{{ sensu_server }}:4567/clients/{{ ansible_hostname }} method=DELETE password=secret user=admin status_code=202    
+
+  # Erase sensu
+  - name: Uninstalling sensu 2012
+    win_msi:
+      path: c:\tmp\sensu-0.29.0-11-x64.msi
+      state: absent
+      wait: True
+    when: "'2012' not in ansible_os_name"
+
+  - name: Uninstalling sensu 2008
+    win_msi:
+      path: c:\tmp\sensu-0.29.0-11-x64-2008.msi
+      state: absent
+      wait: True
+    when: "'2008' in ansible_os_name"
+
+  - name: Delete sensu client service
+    raw: C:\Windows\System32\sc.exe delete sensu-client
+
+  # Delete sensu configuration directory
+  - name: Remove all sensu directories
+    win_file:
+      state: absent
+      path: '{{ sensu_win_path }}'

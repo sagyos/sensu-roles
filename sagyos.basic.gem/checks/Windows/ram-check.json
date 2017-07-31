@@ -1,0 +1,9 @@
+{
+  "checks": {
+    "check_ram": {
+      "command": "C:\\opt\\sensu\\embedded\\bin\\ruby.exe C:\\opt\\sensu\\plugins\\Windows\\check-windows-ram.rb",
+      "interval": 60,
+      "standalone": true
+    }
+  }
+}

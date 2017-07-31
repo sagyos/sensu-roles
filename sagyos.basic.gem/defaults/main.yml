@@ -1,0 +1,16 @@
+---
+# Ansible variables
+ansible_checks_dir : /etc/ansible/roles/basic-gemdeploy/checks
+ansible_gems_dir : /etc/ansible/roles/basic-gemdeploy/gems
+
+# sensu linux variables
+sensu_plugins_dir: /etc/sensu/plugins
+sensu_ruby_bin_path: /opt/sensu/embedded/bin/ruby
+sensu_checks_dir: /etc/sensu/conf.d/checks
+sensu_gemfiles_dir: /etc/sensu/gemfiles
+
+# sensu windows variables
+sensu_win_gemfiles_dir: c:\opt\sensu\gemfiles
+sensu_win_plugins_dir: c:\opt\sensu\plugins
+sensu_win_checks_dir: c:\opt\sensu\conf.d\checks
+sensu_win_bin_path: c:\opt\sensu\embedded\bin

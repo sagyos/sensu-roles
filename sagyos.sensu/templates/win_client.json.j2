@@ -1,0 +1,11 @@
+{
+  "client": {
+    "name": "{{ sensu_client_name }}",
+    "address": "{{ hostvars[inventory_hostname]['ansible_ip_addresses'][0] }}",
+    "subscriptions": {{ sensu_client_subscriptions | to_nice_json }},
+    "socket": {
+      "bind": "127.0.0.1",
+      "port": 3030
+    }
+  }
+}

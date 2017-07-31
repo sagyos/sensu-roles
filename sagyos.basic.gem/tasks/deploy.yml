@@ -1,0 +1,79 @@
+---
+  
+  # Copying the Gemfile from the ansible server to the monitored host
+  - name: transporting Gemfile (for bundler use)
+    copy:
+      src: '{{ ansible_gems_dir }}/{{ current_group }}'
+      dest: '{{ sensu_gemfiles_dir }}'
+      owner: sensu
+      group: sensu
+      mode: 0644
+    when: ansible_os_family != "Windows" 
+
+  # Ensuring that the sensu plugins current group directory exists, and if not creates it
+  - name: ensuring plugins dir existss
+    file:
+      owner: sensu
+      group: sensu
+      path: '{{ sensu_plugins_dir }}/{{ current_group }}'
+      recurse: yes
+      state: directory
+    when: ansible_os_family != "Windows"
+
+  # Installing the gems in the Gemfile, and puts the bin files in the sensu plugins directory
+  - name: Installing bundler gems
+    bundler:
+      gemfile: '{{ sensu_gemfiles_dir }}/{{ current_group }}/Gemfile'
+      state: present
+      binstub_directory: '{{ sensu_plugins_dir }}/{{ current_group }}'
+      gem_path: /opt/sensu/embedded/lib/ruby/gems/2.4.0
+      executable: /opt/sensu/embedded/bin/bundle
+    become: true
+    become_method: su
+    become_user: sensu
+    become_flags: '-s /bin/sh'
+    when: ansible_os_family != "Windows"
+
+  # Copying the json check files to the monitored host and restarting the sensu client
+  - name: transporting check files
+    copy:
+      src: "{{ ansible_checks_dir }}/{{ current_group }}"
+      dest: "{{ sensu_checks_dir }}"
+      owner: sensu
+      group: sensu
+      mode: 0644
+    notify: restart sensu-client service
+    when: ansible_os_family != "Windows"
+
+  # Make sure the sensu client is running
+  - name: Ensure Sensu client service is running
+    service: name=sensu-client state=started enabled=yes
+    when: ansible_os_family != "Windows"
+
+  - name: transporting Gemfile (for bundler use)
+    win_copy:
+      src: '{{ ansible_gems_dir }}/{{ current_group }}'
+      dest: '{{ sensu_win_gemfiles_dir }}'
+    when: ansible_os_family == "Windows"
+
+  - name: ensuring plugins dir existss
+    win_file:
+      path: '{{ sensu_win_plugins_dir }}\{{ current_group }}'
+      state: directory
+    when: ansible_os_family == "Windows"
+
+  - name: Installing bundler gems
+    raw: 'bundle install --gemfile {{ sensu_win_gemfiles_dir }}\{{ current_group }}\Gemfile --binstubs {{ sensu_win_plugins_dir }}\{{ current_group }}'
+    when: ansible_os_family == "Windows"
+
+  - name: transporting check files
+    win_copy:
+      src: "{{ ansible_checks_dir }}/{{ current_group }}"
+      dest: "{{ sensu_win_checks_dir }}"
+    when: ansible_os_family == "Windows"
+
+  - name: Restart sensu client
+    win_service:
+      name: sensu-client
+      state: restarted
+    when: ansible_os_family == "Windows"

@@ -1,0 +1,23 @@
+site_name: Ansible Sensu
+site_url: https://galaxy.ansible.com/cmacrae/sensu/
+repo_url: https://github.com/cmacrae/ansible-sensu/
+site_description: An Ansible role to deploy a fully dynamic Sensu stack!
+site_author: Calum MacRae
+
+theme: flatly
+pages:
+  - [ 'index.md', 'Home' ]
+  - [ 'role_variables.md', 'Usage', 'Role variables' ]
+  - [ 'example_infra.md', 'Usage', 'Example infrastructure layout' ]
+  - [ 'single_master.md', 'Usage', 'Deploy the stack to a single node' ]
+  - [ 'differing_master_environment.md', 'Usage', 'A differing master environment' ]
+  - [ 'custom_client_config.md', 'Usage', 'Custom client configuration' ]
+  - [ 'deploy_plugins.md', 'Usage', 'Deployment of handlers/filters/mutators' ]
+  - [ 'remote_plugins.md', 'Usage', 'Remote plugin deployment']
+  - [ 'sensitive_info.md', 'Usage', 'Sensitive information in version control' ]
+  - [ 'integration.md', 'Usage', 'Integration with other roles/managment methods']
+  - [ 'testing.md', 'Usage', 'Testing' ]
+  - [ 'dynamic_data.md','Conventions','Dynamic data store' ]
+  - [ 'dynamic_checks.md','Conventions','Dynamic check deployment' ]
+  - [ 'afewwords.md','About','A few words from the author' ]
+  - [ 'license.md','About','License' ]

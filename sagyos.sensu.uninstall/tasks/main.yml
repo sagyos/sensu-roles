@@ -1,0 +1,9 @@
+---
+  
+  # Delete Sensu [Linux]
+  - include: delete.yml
+    when: ansible_os_family != "Windows" 
+
+  # Delete Sensu [Windows]
+  - include: win-delete.yml
+    when: ansible_os_family == "Windows"

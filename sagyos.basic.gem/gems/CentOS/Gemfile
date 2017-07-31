@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+source "https://rubygems.org"
+
+gem 'sensu-plugins-cpu-checks'
+gem 'sensu-plugins-disk-checks'
+gem 'sensu-plugins-hardware'
+gem 'sensu-plugins-memory-checks'
+gem 'sensu-plugins-network-checks'
+gem 'sensu-plugins-process-checks'
+gem 'sensu-plugins-uptime-checks'
+gem 'vmstat'

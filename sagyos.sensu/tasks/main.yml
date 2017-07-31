@@ -1,0 +1,51 @@
+---
+# tasks/main.yml: "Master" playbook for the cmacrae.sensu role
+
+  - include_vars: "{{ ansible_distribution }}.yml"
+    when: ansible_os_family != "Windows"
+
+  - include: "{{ ansible_distribution }}/main.yml"
+    tags: setup
+    when: ansible_os_family != "Windows"
+
+  - include: "Windows/main.yml"
+    when: ansible_os_family == "Windows"
+
+  - include: redis.yml
+    tags: redis
+    when: redis_server
+          and sensu_deploy_redis
+          and ansible_os_family != "Windows"
+
+  - include: ssl.yml
+    tags: ssl
+    when: ansible_os_family != "Windows"
+
+  - include: rabbit.yml
+    tags: rabbitmq
+    when: rabbitmq_server
+          and sensu_deploy_rabbitmq
+          and ansible_os_family != "Windows"
+
+  - include: common.yml
+    tags: common
+    when: ansible_os_family != "Windows"
+
+  - include: server.yml
+    tags: server
+    when: sensu_master
+          and ansible_os_family != "Windows"
+
+  - include: dashboard.yml
+    tags: dashboard
+    when: sensu_include_dashboard
+          and ansible_os_family != "Windows"
+
+  - include: client.yml
+    tags: client
+    when: ansible_os_family != "Windows"
+
+  - include: plugins.yml
+    tags: plugins
+    when: sensu_include_plugins
+          and ansible_os_family != "Windows"

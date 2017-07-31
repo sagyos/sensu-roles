@@ -1,0 +1,5 @@
+---
+# sensu variables
+sensu_server: 192.168.43.30
+sensu_path: /etc/sensu/
+sensu_win_path: c:\opt\sensu

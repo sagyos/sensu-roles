@@ -1,0 +1,12 @@
+---
+# tasks/client.yml: Deploy various client-side configurations for Sensu
+
+  - name: Deploy Sensu client service configuration
+    template:
+      dest: "{{ sensu_win_config_path }}\\client.json"
+      src: "{{ sensu_win_client_config  }}"
+
+  - name: Restart sensu client
+    win_service:
+      name: sensu-client
+      state: restarted
