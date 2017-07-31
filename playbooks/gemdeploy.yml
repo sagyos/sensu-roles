@@ -1,0 +1,5 @@
+---
+
+  - hosts: sensu_masters
+    roles:
+      - basic-gemdeploy  

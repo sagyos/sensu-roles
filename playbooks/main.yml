@@ -1,0 +1,5 @@
+---  
+- hosts: CentOS
+  roles:
+    - cmacrae.sensu
+    - gemdeploy

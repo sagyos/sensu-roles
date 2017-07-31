@@ -1,0 +1,5 @@
+rabbitmq_host: 192.168.43.30
+redis_host: 192.168.43.30
+sensu_api_host: 192.168.43.30
+dynamic_data_store: /etc/ansible/config/data/dynamic
+static_data_store: /etc/ansible/codebase/data/static

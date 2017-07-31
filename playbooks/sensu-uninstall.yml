@@ -1,0 +1,4 @@
+---
+- hosts: Windows
+  roles:
+    - sensu.uninstall

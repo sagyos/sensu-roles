@@ -1,0 +1,18 @@
+---
+- hosts: CentOS
+  tasks:
+  - name:
+    raw: yum updateinfo
+
+  - name: installing epel relase
+    yum:
+      name: epel-release
+      state: latest
+
+  - name:
+    raw: yum updateinfo
+
+  - name: Installing yum requirements
+    yum:
+      name: gem, ruby-devel, net-tools, gcc, ruby, rubygems, vim, cowsay, fortune-mod, bash-completion, screen, wget, telnet, open-vm-tools
+      state: latest

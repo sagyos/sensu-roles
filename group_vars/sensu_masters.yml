@@ -1,0 +1,2 @@
+sensu_master: true
+sensu_include_dashboard: true
