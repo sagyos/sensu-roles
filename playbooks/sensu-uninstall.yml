@@ -1,4 +1,4 @@
 ---
-- hosts: Windows
+- hosts: for_deletion
   roles:
-    - sensu.uninstall
+    - sagyos.sensu.uninstall

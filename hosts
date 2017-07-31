@@ -42,36 +42,11 @@
 
 ## db-[99:101]-node.example.com
 
-[rabbitmq_servers]
-192.168.43.30
+[rhel]
 
-[redis_servers]
-192.168.43.30
-
-[sensu_masters]
-192.168.43.30
-
-[uchiwa]
-192.168.43.40
-
-[sensu_clients]
-
-[nexus]
-
-[test]
-
-[elk]
-192.168.43.40
-
-[for_installation]
-
-[for_deletion]
-
-[mongo]
 
 [CentOS]
-192.168.43.31
 
 [Windows]
-192.168.43.52
 
+[for_deletion]

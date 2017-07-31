@@ -1,5 +1,5 @@
 ---
 
-- hosts: uchiwa
+- hosts: all
   roles:
     - gemundeploy

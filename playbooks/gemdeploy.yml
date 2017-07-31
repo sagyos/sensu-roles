@@ -1,5 +1,5 @@
 ---
 
-  - hosts: sensu_masters
+  - hosts: CentOS
     roles:
-      - basic-gemdeploy  
+      - sagyos.advanced.gem

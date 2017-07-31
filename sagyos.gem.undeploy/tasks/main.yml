@@ -1,0 +1,12 @@
+---
+  
+  - name: Get all directories (checks)
+    local_action:
+      module: shell
+      _raw_params: "/usr/bin/ls -d {{ ansible_checks_dir }}/* | /usr/bin/awk -F '/' '{print $7}'"
+    register: checks
+
+
+  - include: undeploy.yml current_group={{ item }}
+    with_items: "{{checks.stdout_lines}}"
+    when: "'{{ item }}' not in group_names"

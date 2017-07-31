@@ -1,0 +1,39 @@
+---
+
+  # Delete the sensu plugins group directory
+  - name: Clean sensu plugins group dir
+    file:
+      state: absent
+      path: "{{ sensu_plugins_dir }}/{{ current_group }}/"
+    when: ansible_os_family != "Windows"
+
+  # Delete the sensu checks group directory and restarting sensu client
+  - name: Clean sensu checks group dir
+    file:
+      state: absent
+      path: "{{ sensu_checks_dir }}/{{ current_group }}/"
+    notify: restart sensu-client service
+    when: ansible_os_family != "Windows"
+
+  # Ensure Sensu client service is running
+  - name: Ensure Sensu client service is running
+    service: name=sensu-client state=started enabled=yes
+    when: ansible_os_family != "Windows"
+
+  - name: Clean sensu plugins group dir
+    win_file:
+      state: absent
+      path: "{{ sensu_win_plugins_dir }}/{{ current_group }}/"
+    when: ansible_os_family == "Windows"
+
+  - name: Clean sensu checks group dir
+    win_file:
+      state: absent
+      path: "{{ sensu_win_checks_dir }}/{{ current_group }}/"
+    when: ansible_os_family == "Windows"
+
+  - name: Restart sensu client
+    win_service:
+      name: sensu-client
+      state: restarted
+    when: ansible_os_family == "Windows"

@@ -1,5 +1,5 @@
 ---  
-- hosts: CentOS
+- hosts: all
   roles:
-    - cmacrae.sensu
-    - gemdeploy
+    - sagyos.sensu
+    - sagyos.gem.basic

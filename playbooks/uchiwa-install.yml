@@ -1,4 +1,0 @@
----
-- hosts: uchiwa
-  roles:
-     - queeno.uchiwa
